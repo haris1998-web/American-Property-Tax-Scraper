@@ -283,11 +283,10 @@ def parse_html(requests_resp, pin):
             owner_and_address_345 = re.sub(
                 "\s+", " ", owner_and_address[-1].strip()).split(',')
             if owner_and_address[1] != owner_and_address_2:
-                # print("New address is found")
                 owner_and_address_1 = owner_and_address_1 + \
                     " " + owner_and_address[1]
         else:
-            owner_and_address_1 = '-'
+            # owner_and_address_1 = '-'
             owner_and_address_2 = '-'
             owner_and_address_345 = '-'
 
