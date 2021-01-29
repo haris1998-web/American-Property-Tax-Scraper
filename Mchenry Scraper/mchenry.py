@@ -191,6 +191,7 @@ def parse_html(requests_resp, pin):
 
     property_res = soup.find('h3', string='Property Information')
     if property_res:
+        # print('Hahaha')
         pass
     else:
         dict_data = {
@@ -238,13 +239,12 @@ def parse_html(requests_resp, pin):
         table1 = soup.find_all('table', {'class': 'table table-bordered'})[0]
         site_address = table1.tr.find_all('td')[1].find(
             'div', {'class': 'inner-value'}).text.strip().split('\n')
-
+        # print(len(site_address))
         try:
             # print("2 should be here: ", len(site_address))
             if (len(site_address) >= 2):
                 site_address_1 = re.sub("\s+", " ", site_address[0].strip())
-                site_address_2_34 = re.sub(
-                    "\s+", " ", site_address[1].strip()).split(',')
+                site_address_2_34 = re.sub("\s+", " ", site_address[1].strip()).split(',')
                 site_address_2 = site_address_2_34[0].strip(', ')
                 if (site_address_2) == '':
                     site_address_2 = '-'
@@ -271,25 +271,25 @@ def parse_html(requests_resp, pin):
         except:
             print('Error was at 258')
 
-        print(site_address_1)
-        print(site_address_2)
-        print(site_address_3)
-        print(site_address_4)
+        # print(site_address_1)
+        # print(site_address_2)
+        # print(site_address_3)
+        # print(site_address_4)
 
         owner_and_address = table1.tr.find_all('td')[2].find('div', {'class': 'inner-value'}).text.strip().split('\n')
         owner_and_address_1 = re.sub("\s+", " ", owner_and_address[0].strip())
 
-
         if (len(owner_and_address) >= 2):
             owner_and_address_2 = re.sub("\s+", " ", owner_and_address[-2].strip())
             owner_and_address_345 = re.sub("\s+", " ", owner_and_address[-1].strip()).split(',')
+            if owner_and_address[1] != owner_and_address_2:
+                # print("New address is found")
+                owner_and_address_1 = owner_and_address_1 + " " +owner_and_address[1]
         else:
+            owner_and_address_1 = '-'
             owner_and_address_2 = '-'
             owner_and_address_345 = '-'
 
-        if owner_and_address[1] != owner_and_address_2:
-            # print("New address is found")
-            owner_and_address_1 = owner_and_address_1 + " " +owner_and_address[1]
 
         # print(owner_and_address_1)
         if (len(owner_and_address_345) == 3):
@@ -317,8 +317,7 @@ def parse_html(requests_resp, pin):
 
         """Sales history"""
         try:
-            sales_table = soup.find('h3', string='Sales History').parent.parent.find_all(
-                'table', {'class': 'table table-bordered table-hover'})[0]
+            sales_table = soup.find('h3', string='Sales History').parent.parent.find_all('table', {'class': 'table table-bordered table-hover'})[0]
             try:
                 sales_year = l_to_csv(loop_td_rows(sales_table, 0))
                 # sales_year = (loop_td_rows(sales_table, 0))[0]
@@ -439,6 +438,7 @@ def parse_html(requests_resp, pin):
                 gran_amnt = '-'
 
         except IndexError:
+            # print("Error was here")
             exem_type = '-'
             exem_date = '-'
             gran_date = '-'
@@ -661,7 +661,7 @@ def parse_html(requests_resp, pin):
             'red_date': '-',
             'red_pena': '-'
         }
-
+    # print(dict_data)
     return dict_data
 
 
